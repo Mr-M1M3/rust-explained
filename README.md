@@ -1,4 +1,4 @@
 # Different rust topics explained
 
 - [RefCell](explanations/RefCell.md)
-- [mpsc](explanations/RefCell.md)
+- [mpsc](explanations/mpsc.md)
