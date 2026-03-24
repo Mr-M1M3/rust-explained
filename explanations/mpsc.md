@@ -79,7 +79,7 @@ fn main() {
         let thread = thread::spawn(move || {
             // we loop forever and keep listening for new messages
             loop {
-                let rcvd = rx.recv().expect("channel closed"); // blocks the thread and waitrs for a message.s
+                let rcvd = rx.recv().expect("channel closed"); // blocks the thread and waits for a message.s
                 //next lines of code is not executed until a message is rcvd
                 println!("{rcvd}");
             } // after the loop body gets executed, goes to the top bof the loop body and waits for a message again
@@ -105,7 +105,7 @@ fn main() {
         let thread = thread::spawn(move || {
             // we loop forever and keep listening for new messages
             loop {
-                let rcvd = rx.recv().expect("channel closed"); // blocks the thread and waitrs for a message.s
+                let rcvd = rx.recv().expect("channel closed"); // blocks the thread and waits for a message.s
                 //next lines of code is not executed until a message is rcvd
                 println!("{rcvd}");
             } // after the loop body gets executed, goes to the top bof the loop body and waits for a message again
@@ -119,7 +119,7 @@ fn main() {
         }
         drop(tx);// this closes the channel causing to .recv().expect(...) panic and exit the spawned thread (not only the loop body)
         thread.join().unwrap(); // we wait for the spawned thread to finish
-        // but the closure we passed loops forever and never finshes
+        // but the closure we passed loops forever and never finishes
         //that's why main thread waits forever and never exits
     }
 
@@ -137,7 +137,7 @@ fn main() {
         let thread = thread::spawn(move || {
             // we loop forever and keep listening for new messages
             loop {
-                let rcvd = rx.recv().expect("channel closed"); // blocks the thread and waitrs for a message
+                let rcvd = rx.recv().expect("channel closed"); // blocks the thread and waits for a message
                 // after getting a message goes to the next line, we check what command we got
                 match rcvd {
                     // if we are told to process
@@ -149,7 +149,7 @@ fn main() {
                     }
                 }
             }
-            //if we break out from the loop, there is nothing left to be executed and the ckosure finishes executing
+            //if we break out from the loop, there is nothing left to be executed and the closure finishes executing
         });
         tx.send(Command::Process(100)).expect("channel is closed"); //we passed a message
 
@@ -159,15 +159,15 @@ fn main() {
             tx.send(Command::Process(i)).unwrap();
         }
         //when we no longer need the thread,
-        tx.send(Command::Terminate).unwrap(); // this will ask the spawne thread to break out of the loop
-        //after bvreaking out of the loop, the closure finishes excuting and the spawned threadf is considered done
+        tx.send(Command::Terminate).unwrap(); // this will ask the spawned thread to break out of the loop
+        //after breaking out of the loop, the closure finishes executing and the spawned thread is considered done
         thread.join().unwrap(); // we wait for the spawned thread to finish
         // after the spawned thread is done
         //main thread exits as this is the last line of the main thread
     }
 
     // There is a better approach
-    //because rx is of type `std::sync::mpsc::Receiver<T>` which implements Iterator trait, we can just ityerate over it
+    //because rx is of type `std::sync::mpsc::Receiver<T>` which implements Iterator trait, we can just iterate over it
     {
         // isolated using code blocks to illustrate different cases
         let (tx, rx) = mpsc::channel::<i32>();
@@ -188,11 +188,11 @@ fn main() {
             tx.send(i).unwrap();
         }
         thread.join().unwrap(); // we wait for the spawned thread to finish
-        // but the spawned thread waits forever because the channle is never closed resulting in infinite itration.
+        // but the spawned thread waits forever because the channel is never closed resulting in infinite iteration.
         //that's why main thread waits forever too.
     }
-    // what to do after we arew done sending messages?
-    // juist like we did when we were using loop block,
+    // what to do after we are done sending messages?
+    // just like we did when we were using loop block,
     // conditionally break from the iteration
     // or we could just drop the sender by calling
     //drop(tx)
